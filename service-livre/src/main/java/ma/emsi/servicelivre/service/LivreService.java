@@ -23,7 +23,7 @@ public class LivreService implements ILivreService{
 
     private LivreRepository     livreRepository;
     private CategorieRepository categorieRepository;
-    private final ModelMapper modelMapper;
+    private  ModelMapper modelMapper;
 
 
     @Override
@@ -89,19 +89,13 @@ public class LivreService implements ILivreService{
     @Override
     public LivreDto updateLivre(String id, LivreDto livreDto) {
         if (livreDto == null || id == null) throw new RuntimeException("INPUT IS EMPTY");
+        LivreDto  livre = findLivreById(id);
 
-        List<Categorie> categories = new ArrayList<>();
+        livreDto.setId(id);
 
-        livreDto.getCategoryIds().forEach(cat ->
-                categories.add(categorieRepository
-                        .findById(cat)
-                        .orElse(null)));
-        Livre livre = modelMapper.map(livreDto,Livre.class);
-        livre.setCategories(categories);
-        livre.setId(id);
-        livreRepository.save(livre);
-
-        return livreDto;
+        Livre livre1 =modelMapper.map(livreDto,Livre.class);
+        Livre livre2=livreRepository.save(livre1);
+        return modelMapper.map(livre2,LivreDto.class);
     }
 
 

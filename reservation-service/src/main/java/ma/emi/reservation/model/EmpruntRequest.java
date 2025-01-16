@@ -12,16 +12,41 @@ import java.util.Date;
 @Data
 public class EmpruntRequest {
 
-
+    private String idPersonne;
+    private String idLivre;
+    private String idReservation;
     private String cne;
 
     private String libLivre;
 
-    private LocalDate dateEmprunte;
+    private Date dateEmprunte;
 
-    private LocalDate   retourLivre;
+    private Date   retourLivre;
 
-    private LocalDate   retourLivre_Personne;
+
+    public String getIdPersonne() {
+        return idPersonne;
+    }
+
+    public void setIdPersonne(String idPersonne) {
+        this.idPersonne = idPersonne;
+    }
+
+    public String getIdLivre() {
+        return idLivre;
+    }
+
+    public void setIdLivre(String idLivre) {
+        this.idLivre = idLivre;
+    }
+
+    public String getIdReservation() {
+        return idReservation;
+    }
+
+    public void setIdReservation(String idReservation) {
+        this.idReservation = idReservation;
+    }
 
     public String getCne() {
         return cne;
@@ -39,27 +64,19 @@ public class EmpruntRequest {
         this.libLivre = libLivre;
     }
 
-    public LocalDate getDateEmprunte() {
+    public Date getDateEmprunte() {
         return dateEmprunte;
     }
 
-    public void setDateEmprunte(LocalDate dateEmprunte) {
+    public void setDateEmprunte(Date dateEmprunte) {
         this.dateEmprunte = dateEmprunte;
     }
 
-    public LocalDate getRetourLivre() {
+    public Date getRetourLivre() {
         return retourLivre;
     }
 
-    public void setRetourLivre(LocalDate retourLivre) {
+    public void setRetourLivre(Date retourLivre) {
         this.retourLivre = retourLivre;
-    }
-
-    public LocalDate getRetourLivre_Personne() {
-        return retourLivre_Personne;
-    }
-
-    public void setRetourLivre_Personne(LocalDate retourLivre_Personne) {
-        this.retourLivre_Personne = retourLivre_Personne;
     }
 }

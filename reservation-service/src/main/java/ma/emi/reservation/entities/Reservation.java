@@ -23,6 +23,8 @@ public class Reservation {
     private String       idPersonne;
 
     private String       idLivre;
+
+    private String       idEmprunt ;
     private LocalDate    dateReservation;
 
     private LocalDate    dateDisponibilitePossible;
@@ -61,6 +63,14 @@ public class Reservation {
 
     public void setIdLivre(String idLivre) {
         this.idLivre = idLivre;
+    }
+
+    public String getIdEmprunt() {
+        return idEmprunt;
+    }
+
+    public void setIdEmprunt(String idEmprunt) {
+        this.idEmprunt = idEmprunt;
     }
 
     public LocalDate getDateReservation() {

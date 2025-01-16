@@ -13,8 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/emprunte")
-@CrossOrigin(origins = "http://localhost:4200",
-        allowedHeaders = "*")
 public class EmpruntRestController {
 
     @Autowired
@@ -27,7 +25,7 @@ public class EmpruntRestController {
 
     @GetMapping
     public List<EmprunteDtoResponse> getEmpruntes(){
-       return  empruntService.getEmprunts();
+       return empruntService.getEmprunts();
     }
 
 
@@ -37,14 +35,23 @@ public class EmpruntRestController {
     }
 
 
-    @PutMapping("/retourneLivre/{id}")
-    public EmprunteDtoResponse saveEmprunte(@PathVariable(name = "id") String id,@RequestBody Date date){
-        return empruntService.saveEmpruntRetourne(id,date);
-    }
+
 
     @GetMapping("/byUser/{id}")
     public List<EmprunteDtoResponse> getEmprunteByUserId(@PathVariable String id){
         return  empruntService.getEmpruntesByPersonne(id);
+    }
+
+    @GetMapping("/byDateRetourLivre/{idLivre}")
+    public EmprunteDtoResponse getDateRetourLivre(@PathVariable String idLivre){
+        return  empruntService.getEmpruntByDateRtourLivre(idLivre);
+    }
+
+
+    @PutMapping("/retouneLivre/{id}")
+
+    public EmprunteDtoResponse retourneLivre(@PathVariable String id ){
+        return  empruntService.saveEmpruntRetourne(id);
     }
 
 }

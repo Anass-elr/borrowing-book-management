@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,8 +31,8 @@ public class ReservationService {
     @Autowired
      private ReservationRepository reservationRepository;
 
-        @Autowired
-        private ModelMapper        modelMApper;
+    @Autowired
+    private ModelMapper        modelMApper;
 
      @Autowired
      private LivreRestClient    livreRestClient;
@@ -41,17 +43,38 @@ public class ReservationService {
      @Autowired
      private EmpruntRestClient empruntRestClient;
 
-    public ReservationResponse saveReservation(ReservationRequest reservationRequest){
+    public Reservation saveReservation(ReservationRequest reservationRequest){
 
-        Livre livre = livreRestClient.getLivreById(reservationRequest.getIdLivre()).getBody();
-        Personne personne = personneRestClient.personne(reservationRequest.getIdPersonne()).getBody();
+        Livre livre             = livreRestClient.getLivreById(reservationRequest.getIdLivre()).getBody();
+        Personne personne       = personneRestClient.personne(reservationRequest.getIdPersonne()).getBody();
 
-        Reservation reservation = modelMApper.map(reservationRequest , Reservation.class);
+
+        Date date =        empruntRestClient.getDateRetourLivre(reservationRequest.getIdLivre()).getRetourLivre();
+
+        System.out.println(reservationRequest.getIdLivre());
+        Reservation reservation = new Reservation();
+        reservation.setIdLivre(reservationRequest.getIdLivre());
+        reservation.setIdPersonne(reservationRequest.getIdPersonne());
+
+        reservation.setDureeJours(reservationRequest.getDureeJours());
+
+
+        if (date != null) {
+            LocalDate retourLocalDate = date.toInstant()
+                    .atZone(ZoneId.systemDefault()) // Ou ZoneId.of("UTC") pour UTC
+                    .toLocalDate();
+            reservation.setDateDisponibilitePossible(retourLocalDate);
+
+            System.out.println("Converted LocalDate: " + retourLocalDate);
+        } else {
+            System.out.println("Date de retour est null");
+        }
+        reservation.setDateReservation(LocalDate.now());
         reservation.setLivre(livre);
         reservation.setPersonne(personne);
 
         reservationRepository.save(reservation);
-        return modelMApper.map(reservation , ReservationResponse.class);
+        return  reservation;
 
     }
 
@@ -60,10 +83,12 @@ public class ReservationService {
        return reservationRepository.findById(id).orElseThrow(()-> new RuntimeException(""));
     }
 
-/*
-    public Reservation getReservationByPersonneCne(String cne){
-        return reservationRepository.findReservationByPersonneCne(cne);
+
+    public List<Reservation> getReservationByIdPersonne(String idPeronne){
+        return reservationRepository.findReservationByIdPersonne(idPeronne);
     }
+
+    /*
     public Reservation getReservationByLivre(String lib){
         return reservationRepository.findReservationByLivreLibLivre(lib);
     }
@@ -76,6 +101,7 @@ public class ReservationService {
     }
 */
 
+    /**
     public List<EmprunteDtoResponse> updateReservation(){
 
         LocalDate today = LocalDate.now();
@@ -102,6 +128,7 @@ public class ReservationService {
                 empruntRequest.setLibLivre(livre.getLibLivre());
                 empruntRequest.setCne(personne.getCne());
 
+                empruntRequest.setIdReservation(reservation.getIdReservation());
                 emprunteDtoResponseList.add(empruntRestClient.saveEmprunte(empruntRequest));
 
                 reservation.setLivre(livre1);
@@ -109,7 +136,7 @@ public class ReservationService {
             }
         });
         return  emprunteDtoResponseList;
-    }
+    }*/
 
 
 

@@ -12,4 +12,7 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation,String> {
 
     List<Reservation> findReservationByDateDisponibilitePossible(LocalDate date);
+    List<Reservation> findReservationByIdPersonne(String idPersonne);
+
+
 }

@@ -60,6 +60,16 @@ public class EmpruntService {
                 .collect(Collectors.toList());
     }
 
+
+    public EmprunteDtoResponse getEmpruntByDateRtourLivre(String idLivre){
+        List<Emprunte> empruntes = empruntRepository.findEmpruntesByIdLivreOrderByRetourLivreAsc(idLivre);
+
+        if(empruntes!= null)
+            return modelMapper.map(empruntes.get(0),EmprunteDtoResponse.class);
+        else
+            return null;
+    }
+
     public EmprunteDtoResponse saveEmprunt(EmpruntDtoRequest emprunteDto){
 
         Livre livre       = livreRestClient.getLivreById(emprunteDto.getIdLivre()).getBody();
@@ -82,21 +92,24 @@ public class EmpruntService {
         LocalDate localDate1 = convertToLocalDate(emprunteDto.getRetourLivre());
 
         double prix = (livre.getPrixLivre()*3)/100;
-        emprunte.setCoutEmpruntJounalie(
-               prix);
+        emprunte.setCoutEmpruntJounalie(prix);
 
 
         prix = (livre.getPrixLivre()*5)/100;
-        emprunte.setCoutRetartJournalier(
-               prix
-        );
+        emprunte.setCoutRetartJournalier(prix);
 
         // modifier le stoque de livres
+
+        livre.setNbEnStoque(livre.getNbEnStoque()-1);
+
+        livreRestClient.updateLivre(livre.getId(),livre);
         long days= ChronoUnit.DAYS.between(localDate, localDate1);
         System.out.println("DAys  : "+days);
 
         prix = days*emprunte.getCoutEmpruntJounalie();
         emprunte.setCoutEmprunt(prix);
+
+
 
         Emprunte emprunte1=empruntRepository.save(emprunte);
         emprunte1.setPersonne(personne);
@@ -106,10 +119,12 @@ public class EmpruntService {
     }
 
 
-    public EmprunteDtoResponse saveEmpruntRetourne(String id, Date dateRetoure){
+    public EmprunteDtoResponse saveEmpruntRetourne(String id){
 
         Emprunte  emprunte = getById(id);
 
+
+        Date dateRetoure = new Date();
         emprunte.setRetoune(true);
         emprunte.setRetourLivre_Personne(dateRetoure);
 
@@ -125,6 +140,10 @@ public class EmpruntService {
         else {
             emprunte.setCoutRetard(0d);
         }
+
+        Livre livre = livreRestClient.getLivreById(emprunte.getIdLivre()).getBody();
+        livre.setNbEnStoque(livre.getNbEnStoque()+1);
+        livreRestClient.updateLivre(livre.getId(),livre);
         empruntRepository.save(emprunte);
         return modelMapper.map(emprunte ,EmprunteDtoResponse.class );
 

@@ -15,10 +15,9 @@ import java.util.Date;
 @Data
 public class ReservationRequest {
 
-    private String      idPersonne;
-    private String      idLivre;
-    private LocalDate   dateReservation;
-    private LocalDate   dateDisponibilitePossible;
+    private String       idPersonne;
+
+    private String       idLivre;
     private int         dureeJours;
 
 
@@ -38,21 +37,7 @@ public class ReservationRequest {
         this.idLivre = idLivre;
     }
 
-    public LocalDate getDateReservation() {
-        return dateReservation;
-    }
 
-    public void setDateReservation(LocalDate dateReservation) {
-        this.dateReservation = dateReservation;
-    }
-
-    public LocalDate getDateDisponibilitePossible() {
-        return dateDisponibilitePossible;
-    }
-
-    public void setDateDisponibilitePossible(LocalDate dateDisponibilitePossible) {
-        this.dateDisponibilitePossible = dateDisponibilitePossible;
-    }
 
     public int getDureeJours() {
         return dureeJours;

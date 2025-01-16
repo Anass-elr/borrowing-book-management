@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.UUID;
 
 @SpringBootApplication
-@EnableConfigurationProperties(RsaKeysConfig.class)
 public class ServiceLivreApplication {
 
 	public static void main(String[] args) {
@@ -47,7 +46,7 @@ public class ServiceLivreApplication {
 				categorieRepository.findAll().forEach(
 						categorie1 -> {
 							Livre livre = Livre.builder().libLivre("livre"+categorie1.getLibCategorie()).prixLivre(123.00)
-									.categories(List.of(categorie1)).nbEnStoque(10).auteur("Auteur").build();
+									.categories(List.of(categorie1)).nbEnStoque(3).auteur("Auteur").build();
 						  livreRepository.save(livre);
 						}
 				);

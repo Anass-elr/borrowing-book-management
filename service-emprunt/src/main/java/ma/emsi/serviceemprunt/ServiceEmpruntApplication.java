@@ -10,8 +10,6 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableFeignClients(basePackages = "ma.emsi.*")
-@EnableConfigurationProperties(RsaKeysConfig.class)
-
 public class ServiceEmpruntApplication {
 
 	public static void main(String[] args) {

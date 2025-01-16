@@ -15,6 +15,7 @@ import java.util.List;
 @RequestMapping("/api/categorie")
 
 @AllArgsConstructor
+
 public class CategorieRestController {
 
 

@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import java.util.UUID;
 
 @SpringBootApplication
-@EnableConfigurationProperties(RsaKeysConfig.class)
 
 public class ServiceUtilisateursApplication {
 

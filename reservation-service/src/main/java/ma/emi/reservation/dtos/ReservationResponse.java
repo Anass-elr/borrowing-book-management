@@ -16,20 +16,16 @@ import java.util.Date;
 public class ReservationResponse {
 
 
-    private String idPersonne;
+    private String      idPersonne;
+    private String      idLivre;
+    private LocalDate   dateReservation;
+    private LocalDate   dateDisponibilitePossible;
+    private int         dureeJours;
 
-    private String idLivre;
-    private Date dateReservation;
+    private Livre       livre ;
 
-    private LocalDate date_disponibilite_possible;
+    private Personne    personne;
 
-    private Date dateEmprunte;
-
-    private int dureeJours;
-
-    private Livre livre ;
-
-    private Personne personne;
 
     public String getIdPersonne() {
         return idPersonne;
@@ -47,28 +43,20 @@ public class ReservationResponse {
         this.idLivre = idLivre;
     }
 
-    public Date getDateReservation() {
+    public LocalDate getDateReservation() {
         return dateReservation;
     }
 
-    public void setDateReservation(Date dateReservation) {
+    public void setDateReservation(LocalDate dateReservation) {
         this.dateReservation = dateReservation;
     }
 
-    public LocalDate getDate_disponibilite_possible() {
-        return date_disponibilite_possible;
+    public LocalDate getDateDisponibilitePossible() {
+        return dateDisponibilitePossible;
     }
 
-    public void setDate_disponibilite_possible(LocalDate date_disponibilite_possible) {
-        this.date_disponibilite_possible = date_disponibilite_possible;
-    }
-
-    public Date getDateEmprunte() {
-        return dateEmprunte;
-    }
-
-    public void setDateEmprunte(Date dateEmprunte) {
-        this.dateEmprunte = dateEmprunte;
+    public void setDateDisponibilitePossible(LocalDate dateDisponibilitePossible) {
+        this.dateDisponibilitePossible = dateDisponibilitePossible;
     }
 
     public int getDureeJours() {

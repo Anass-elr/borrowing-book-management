@@ -10,4 +10,5 @@ import java.util.List;
 public interface EmpruntRepository extends JpaRepository<Emprunte,String> {
 
     List<Emprunte> findEmpruntesByIdPersonne(String idPersonne);
+    List<Emprunte>  findEmpruntesByIdLivreOrderByRetourLivreAsc(String idLivre);
 }
